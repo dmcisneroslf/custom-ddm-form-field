@@ -7,7 +7,13 @@
 			"frontend-taglib-clay": {
 				"clay-button": ">=2.9.0",
 				"clay-icon": ">=2.9.0"
-			}
+			},
+            "data-engine-js-components-web": {
+                "/": "*"
+            },
+            "@liferay/frontend-js-react-web": {
+                "/": "*"
+            }
 		}
 	},
 

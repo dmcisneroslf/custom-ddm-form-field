@@ -15,8 +15,6 @@ const UserDataFieldDDMFormFieldType = ({name, onChange, predefinedValue, readOnl
 		disabled={readOnly}
 		name={name}
 		onInput={(event) => {
-			console.log("onInput: "+event);
-			//TODO: Change the value of another OOTB React component in a form
 			onChange(event);
 		}}
 		type="text"
@@ -43,7 +41,6 @@ const Main = props => {
 	const {editingLanguageId, pages} = useFormState();
 	const previousValue = usePrevious(value);
 
-
 	useEffect(() => {
 		// If the value has changed
 		if (value && previousValue !== value) {
@@ -53,37 +50,18 @@ const Main = props => {
 				payload: pagesVisitor.mapFields(
 					(field) => {
 						console.log("test: "+field.fieldReference);
-						if (field.fieldReference === 'testInput01') {
+						if (field.fieldReference === 'email') {
 							const anotherFieldValue = value;
 
 							return {
 								...field,
+								localizedValue: {
+									...field.localizedValue,
+									[editingLanguageId]: anotherFieldValue,
+								},
 								value: anotherFieldValue,
 							};
-						}else if (field.fieldReference === 'DL') {
-							// find the collection of elements with the class name 'my-text'
-							const collection = document.getElementsByClassName('ddm-form-field-repeatable-add-button');
 
-							// turn the collection into an array
-							const myElements = Array.from(collection);
-
-							// loop through the collection of elements
-							// and style each element
-							myElements.forEach((element) => {
-								element.style.color = 'blue';
-								element.title = 'test';
-								Object.getOwnPropertyNames(element).forEach((val, idx, array) => {
-									console.log(`${val} -> ${element[val]}`);
-								});
-
-							});
-
-							Object.getOwnPropertyNames(field).forEach((val, idx, array) => {
-								console.log(`${val} -> ${field[val]}`);
-							});
-							return {
-								...field
-							};
 						}
 
 						return field;
@@ -103,12 +81,10 @@ const Main = props => {
 		console.log('Componente Rendered');
 
 	}, [previousValue, value]);
-
 	return <FieldBase
 		label={label}
 		name={name}
 		predefinedValue={() => {
-			console.log("predefinedValue: "+predefinedValue);
 			return predefinedValue;
 		}}
 		{...otherProps}
@@ -116,13 +92,11 @@ const Main = props => {
 		<UserDataFieldDDMFormFieldType
 			name={name}
 			onChange={(event) => {
-				console.log("se ha modificado")
 				setCurrentValue(event.target.value);
 				onChange(event);
 			}}
 			readOnly={readOnly}
 			predefinedValue={() => {
-				console.log("predefinedValue: "+predefinedValue);
 				return predefinedValue;
 			}}
 			value={currentValue}
